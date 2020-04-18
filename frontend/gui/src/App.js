@@ -1,5 +1,6 @@
 import React from 'react';
 import './css/App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import 'antd/dist/antd.css';
 import CustomLayout from "./containers/Layout";
 import BaseRouter from "./routes";

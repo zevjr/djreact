@@ -1,7 +1,6 @@
-from django.urls import path
-from .views import ArticleListView, ArticleDatailView
+from .views import ArticleViewSet
+from rest_framework.routers import DefaultRouter
 
-urlpatterns = [
-    path('', ArticleListView.as_view()),
-    path('<pk>', ArticleDatailView.as_view()),
-]
+router = DefaultRouter()
+router.register('', ArticleViewSet, basename='article')
+urlpatterns = router.urls
