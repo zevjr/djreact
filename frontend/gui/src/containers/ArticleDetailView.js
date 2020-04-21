@@ -1,33 +1,32 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import axios from 'axios';
-import {Card} from 'antd';
+import { useParams } from 'react-router';
+import { Card } from 'antd';
 import CustomForm from "../components/Form";
 
-class ArticleDetail extends React.Component {
+function ArticleDetail() {
+    const [article, setArticle] = useState([]);
+    const {articleID} = useParams();
 
-    state = {
-        article: {},
-    }
-    componentDidMount() {
-        const articleID = this.props.match.params.articleID;
+    useEffect(() => {
         axios.get(`http://127.0.0.1:8000/api/${articleID}`)
-            .then(res => {
-                this.setState({
-                    article: res.data
-                });
-            })
-    }
+            .then(res => { setArticle(res.data) })
+            .catch(err => console.error(err))
+    }, [article, articleID])
 
-    render() {
-        return (
-            <>
-                <Card title={this.state.article.title}>
-                    <p>{this.state.article.content}</p>
-                </Card>
-                <CustomForm />
-            </>
-        );
-    }
+
+    return (
+        <>
+            <Card title={article.title}>
+                <p>{article.content}</p>
+            </Card>
+            <CustomForm
+                requestType="put"
+                buttonName="Update"
+                articleID={articleID}
+            />
+        </>
+    );
 }
 
 export default ArticleDetail;
