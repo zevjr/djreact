@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import axios from 'axios';
+import { getDataAPI } from '../helpers/connect';
 import { useParams } from 'react-router';
 import { Card } from 'antd';
 import CustomForm from "../components/Form";
@@ -9,12 +9,11 @@ function ArticleDetail() {
     const {articleID} = useParams();
 
     useEffect(() => {
-        axios.get(`http://127.0.0.1:8000/api/${articleID}`)
-            .then(res => { setArticle(res.data) })
-            .catch(err => console.error(err))
-    }, [article, articleID])
-
-
+        async function getData (){
+            setArticle(await getDataAPI(articleID))
+        }
+        getData();
+    }, [articleID])
     return (
         <>
             <Card title={article.title}>

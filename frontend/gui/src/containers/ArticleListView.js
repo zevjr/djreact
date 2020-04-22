@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import axios from 'axios';
+import { getDataAPI } from '../helpers/connect';
 import Articles from '../components/Article';
 import CustomForm from "../components/Form";
 
@@ -10,11 +10,12 @@ function ArticleList() {
     const [articles, setArticles] = useState([]);
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:8000/api/')
-        .then(res => {setArticles(res.data)})
-        .catch(err => console.error(err))
-    }, [articles])
-    
+        async function getData (){
+            setArticles(await getDataAPI())
+        }
+        getData();
+    }, [])
+
     return (
         <>
             <Articles data={articles} />

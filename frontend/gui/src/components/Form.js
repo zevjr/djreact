@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card, Col, Form } from "react-bootstrap";
-import axios from 'axios';
+import { postDataAPI, putDataAPI, deleteDataAPI } from '../helpers/connect';
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
@@ -17,26 +17,20 @@ function CustomForm({ requestType, buttonName, articleID }) {
         }
     }, [buttonName])
 
-    function onSubmit(data) {
+    async function onSubmit(data) {
         switch (requestType) {
             case 'post':
-                axios.post('http://127.0.0.1:8000/api/', (data))
-                    .then(res => console.log(res))
-                    .catch(error => console.error(error, data));
+                await postDataAPI(data)
                 break;
             case 'put':
-                axios.put(`http://127.0.0.1:8000/api/${articleID}/`, (data))
-                    .then(res => console.log(res))
-                    .catch(error => console.error(error, data));
+                await putDataAPI(articleID, data)
                 break;
             default:
                 break;
         }
     }
-    function handleDeleted() {
-        axios.delete(`http://127.0.0.1:8000/api/${articleID}/`)
-            .then(res => console.log(res))
-            .catch(error => console.error(error));
+    async function handleDeleted() {
+        await deleteDataAPI(articleID)
         history.push('/');
     }
 
